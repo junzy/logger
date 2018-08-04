@@ -23,6 +23,10 @@ public class Logger {
 		setLogSink();
 	}
 
+	/*
+	Reads the config file and gets the defined sink name. At runtime checks if a matching sinkname exists
+	If so it sets the loggers sink to the one define in the config file
+	*/
 	private void setLogSink() {
 		String sinkName = null;
 		// Read config file
@@ -35,6 +39,8 @@ public class Logger {
 		}
 
 		// Get the log Sink class at runtime from the config file
+		// this allows us to drop in new sinkLog files that dont require they library to
+		// be rebuilt again.
 		Reflections reflections = new Reflections("logger");
 		Set<Class<? extends LogSink>> subTypes = reflections.getSubTypesOf(LogSink.class);
 		Iterator<Class<? extends LogSink>> aggItr = subTypes.iterator();
